@@ -3,6 +3,7 @@ plugins {
 	id 'java'
 }
 
+apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 
@@ -29,6 +30,14 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'junit', module: 'junit' //by both name and group
 	}
+}
+
+test {
+    useJUnitPlatform()
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+    }
 }
 
 jacocoTestReport {
