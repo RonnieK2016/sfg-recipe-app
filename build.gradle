@@ -4,6 +4,7 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
 
 group = 'com.udemy.sfg'
 version = '0.0.1-SNAPSHOT'
@@ -29,3 +30,12 @@ dependencies {
 		exclude group: 'junit', module: 'junit' //by both name and group
 	}
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
+}
+
+check.dependsOn jacocoTestReport
