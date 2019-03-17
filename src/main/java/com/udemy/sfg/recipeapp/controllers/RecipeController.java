@@ -43,6 +43,7 @@ public class RecipeController {
     @RequestMapping("recipe/new")
     public String showRecipeForm(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
+
         return RECIPE_FORM_VIEW;
     }
 

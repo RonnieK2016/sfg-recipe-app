@@ -5,7 +5,9 @@ import com.udemy.sfg.recipeapp.repositories.CategoryRepository;
 import com.udemy.sfg.recipeapp.repositories.RecipeRepository;
 import com.udemy.sfg.recipeapp.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Proxy;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,7 @@ import java.util.Set;
 
 @Component
 @Slf4j
+@Profile("default")
 public class SpringBootDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private final RecipeRepository recipeRepository;
