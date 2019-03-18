@@ -1,20 +1,23 @@
 package com.udemy.sfg.recipeapp.controllers;
 
+import com.udemy.sfg.recipeapp.commands.CategoryCommand;
 import com.udemy.sfg.recipeapp.commands.RecipeCommand;
 import com.udemy.sfg.recipeapp.domain.Recipe;
 import com.udemy.sfg.recipeapp.exceptions.NotFoundException;
+import com.udemy.sfg.recipeapp.services.CategoryCommandService;
 import com.udemy.sfg.recipeapp.services.RecipeCommandService;
 import com.udemy.sfg.recipeapp.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @Controller
 @Slf4j
@@ -24,10 +27,13 @@ public class RecipeController {
 
     private RecipeService recipeService;
     private RecipeCommandService recipeCommandService;
+    private CategoryCommandService categoryCommandService;
 
-    public RecipeController(RecipeService recipeService, RecipeCommandService recipeCommandService) {
+    public RecipeController(RecipeService recipeService, RecipeCommandService recipeCommandService
+            , CategoryCommandService categoryCommandService) {
         this.recipeService = recipeService;
         this.recipeCommandService = recipeCommandService;
+        this.categoryCommandService = categoryCommandService;
     }
 
     @GetMapping
@@ -43,7 +49,7 @@ public class RecipeController {
     @RequestMapping("recipe/new")
     public String showRecipeForm(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
-
+        model.addAttribute( "categories", categoryCommandService.getAllCategoryCommands());
         return RECIPE_FORM_VIEW;
     }
 
@@ -51,7 +57,16 @@ public class RecipeController {
     @RequestMapping("recipe/{id}/update")
     public String updateRecipeForm(@PathVariable Long id, Model model) {
 
-        model.addAttribute("recipe", recipeCommandService.findRecipeCommandById(id));
+        RecipeCommand recipeCommand = recipeCommandService.findRecipeCommandById(id);
+        Set<CategoryCommand> categoryCommands = categoryCommandService.getAllCategoryCommands();
+
+        if(!CollectionUtils.isEmpty(recipeCommand.getCategories())) {
+            categoryCommands.removeIf(categoryCommand -> recipeCommand.getCategories().contains(categoryCommand));
+        }
+
+        model.addAttribute("recipe", recipeCommand);
+        model.addAttribute("categories", categoryCommands);
+
 
         return RECIPE_FORM_VIEW;
     }

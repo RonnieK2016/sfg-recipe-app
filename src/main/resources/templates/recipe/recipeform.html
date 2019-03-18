@@ -46,11 +46,14 @@
                                     <label>Categories:</label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="checkbox" value=""/>
-                                            Cat 1
-                                        </label>
+                                    <div class="radio" th:each="category : *{categories}">
+                                        <input type="checkbox" th:field="*{categories}" checked th:value="${category.id}"/>
+                                        <label th:text="${category.description}">Cat 1</label>
+                                    </div>
+
+                                    <div class="radio" th:each="category : ${categories}">
+                                        <input type="checkbox" th:field="*{categories}" th:value="${category.id}"/>
+                                        <label th:text="${category.description}">Cat 1</label>
                                     </div>
                                     <div class="radio" th:remove="all">
                                         <label>

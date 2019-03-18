@@ -3,6 +3,7 @@ package com.udemy.sfg.recipeapp.controllers;
 import com.udemy.sfg.recipeapp.commands.RecipeCommand;
 import com.udemy.sfg.recipeapp.domain.Recipe;
 import com.udemy.sfg.recipeapp.exceptions.NotFoundException;
+import com.udemy.sfg.recipeapp.services.CategoryCommandService;
 import com.udemy.sfg.recipeapp.services.RecipeCommandService;
 import com.udemy.sfg.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,8 @@ class RecipeControllerTest {
     private RecipeService recipeService;
     @Mock
     private RecipeCommandService recipeCommandService;
+    @Mock
+    private CategoryCommandService categoryCommandService;
 
     @InjectMocks
     private RecipeController recipeController;
